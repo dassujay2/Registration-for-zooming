@@ -202,8 +202,8 @@ img_zoom<- brain_z   ##Zoomed image
         }
       }
       
-      msd_L1<- t1/n1
-      msd_L2<-t2/n2
+      msd_L1<- t1/n1      # MSE corresponding to L1-norm
+      msd_L2<-t2/n2       # MSE corresponding to L2-norm
       
       L1_img<-matrix(NA,nrow = nrow(img)-2*w1,ncol = ncol(img)-2*w1)
       L1_img[(r2+1):((nrow(L1_img)-r2)),(r2+1):((ncol(L1_img)-r2))]<-reg_L1[(w1+r2+1):((nrow(img)-w1-r2)),(w1+r2+1):((ncol(img)-w1-r2))]  ##Registered image under L1-norm
@@ -219,4 +219,12 @@ img_zoom<- brain_z   ##Zoomed image
       
       ##Visualization
       image(rot90(L1_img,3),col = grey(seq(0,1,length=256)))
+
+
+
+      #Mutual Information
+      library(infotheo)   # library for Mutual Information
+      m1<- img    # Reference image
+      m2<- L1_img  # Registered image
+      mutinformation(discretize(c(m1[(r2+1):(nrow(img)-r2),(r2+1):(nrow(img)-r2)])),discretize(c(m2[(r2+1):(nrow(img)-r2),(r2+1):(nrow(img)-r2)])),method = "emp")   # Mutual Information
       
